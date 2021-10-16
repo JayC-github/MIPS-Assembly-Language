@@ -1,0 +1,27 @@
+for (int i = 0; i < n_physical_pages; i++) {
+        if(ipt[i].virtual_page == virtual_page) {
+            printf("Time %d: virtual page %d -> physical page %d\n", access_time, virtual_page, i);
+            ipt[i].last_access_time = access_time;
+            return;
+        }      
+    }
+    int least = ipt[0].last_access_time;
+    for (int i = 0; i < n_physical_pages; i++) {
+        if(ipt[i].virtual_page == -1) {
+            printf("Time %d: virtual page %d loaded to physical page %d\n", access_time, virtual_page, i);
+            ipt[i].last_access_time = access_time;
+            ipt[i].virtual_page = virtual_page;
+            return;
+        }
+        if (least > ipt[i].last_access_time){
+            least = ipt[i].last_access_time;
+        }      
+    }
+    for (int i = 0; i < n_physical_pages; i++){
+        if (ipt[i].last_access_time == least) {
+            printf("Time %d: virtual page %d  - virtual page %d evicted - loaded to physical page %d\n", access_time, virtual_page, ipt[i].virtual_page, i);
+            ipt[i].last_access_time = access_time;
+            ipt[i].virtual_page = virtual_page;
+            return;
+        }
+    }

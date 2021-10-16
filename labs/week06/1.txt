@@ -1,0 +1,28 @@
+.text
+factorial:
+    #  ADD CODE TO CREATE STACK FRAME
+    addi $sp, $sp, -8  # create stack frame
+    sw   $ra, 4($sp)   # save return address in the position 4 (-4) 
+    sw   $s0, 0($sp)   # save $s0 in the position 0 of new $sp (-8)
+    
+    # ADD CODE FORFUNCTION HERE
+    move $s0, $a0      
+    ble $a0, 1, else  
+    sub $a0, $a0, 1   
+    jal factorial     
+    mul $s0, $s0, $v0       
+    b end
+     
+else:
+    li $s0, 1         # result = 1;    
+    
+end:
+    move $v0, $s0     # v0 = f(n)    
+    # ADD CODE TO REMOVE STACK FRAME
+                           # clean up stack frame
+    lw   $s0, 0($sp)   # restore $s0
+    lw   $ra, 4($sp)   # restore $ra
+    addi $sp, $sp, 8   # restore sp
+
+    jr  $ra
+
